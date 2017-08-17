@@ -12,9 +12,6 @@
 #include <stdio.h>
 #include <algorithm> 
 #include <iostream>
-#include <map>
-#include <queue>
-#include <stack>
 
 using namespace std;
 
