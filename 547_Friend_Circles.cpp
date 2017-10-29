@@ -37,23 +37,36 @@ Note:
 */
 
 
+
 class Solution {
 public:
     int findCircleNum(vector<vector<int>>& M) {
-        int n = M.size(), res = 0;
-        vector<bool> visited(n, false);
+        int res = 0;
+        
+        if(M.empty() || M[0].empty()) return 0;
+
+        int n = M[0].size();
+        
+        vector<bool> visited (n, false);
+        
         for (int i = 0; i < n; ++i) {
-            if (visited[i]) continue;
-            helper(M, i, visited);
-            ++res;
+            if (!visited[i]){
+                dfs(M, visited, i);
+                ++res;
+            } 
         }
+        
         return res;
     }
-    void helper(vector<vector<int>>& M, int k, vector<bool>& visited) {
+    
+    void dfs(vector<vector<int>> &M, vector<bool> &visited, int k) {
         visited[k] = true;
-        for (int i = 0; i < M.size(); ++i) {
-            if (!M[k][i] || visited[i]) continue;
-            helper(M, i, visited);
+        int n = M[0].size();
+        
+        for(int i = 0; i < n; ++i) {
+            if ((!visited[i]) && (M[k][i] == 1)) {
+                dfs(M, visited, i);
+            }
         }
     }
 };
