@@ -22,40 +22,37 @@ Example 2:
 Answer: 3
 */
 
-Class Solution
-{
-    public:
-        int numIslands(vector<vector<char>> &grid)
-        {
-            if(grid.size() == 0 || grid[0].size() == 0)
-                return 0;
-
-            int res = 0;
-            for(int i = 0; i < grid.size(); ++ i)
-                for(int j = 0; j < grid[0].size(); ++ j)
-                    if(grid[i][j] == '1')
-                    {
-                        ++ res;
-                        DFS(grid, i, j);
-                    }
-            return res;
-         }
-
-    private:
-        void DFS(vector<vector<char>> &grid, int x, int y)
-        {
-            grid[x][y] = '0';
-            
-            if(x > 0 && grid[x - 1][y] == '1')
-                DFS(grid, x - 1, y);
-            
-            if(x < grid.size() - 1 && grid[x + 1][y] == '1')
-                DFS(grid, x + 1, y);
-
-            if(y > 0 && grid[x][y - 1] == '1')
-                DFS(grid, x, y - 1);
-            
-            if(y < grid[0].size() - 1 && grid[x][y + 1] == '1')
-                DFS(grid, x, y + 1);
-         }
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        if(grid.empty() || grid[0].empty()) return 0;
+        int res = 0;
+        
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<bool>> visited(m, vector<bool> (n, false));
+        
+        for (int i = 0; i < m; ++i) {
+            for(int j = 0; j < n; ++j) {
+                if(grid[i][j] == '1' && !visited[i][j]) {
+                    dfs(grid, visited, i, j);
+                    ++res;
+                }
+            }
+        }
+        
+        return res;
+        
+    }
+    
+    void dfs(vector<vector<char>> &grid, vector<vector<bool>> &visited, int i, int j) {
+        if (i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size()) return;
+        if (grid[i][j] != '1' || visited[i][j]) return;
+    
+        visited[i][j] = true;
+    
+        dfs(grid, visited, i - 1, j);
+        dfs(grid, visited, i + 1, j);
+        dfs(grid, visited, i, j - 1);
+        dfs(grid, visited, i, j + 1);
+    }
 };
