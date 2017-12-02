@@ -33,23 +33,20 @@ Note:
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& findNums, vector<int>& nums) {
-        vector<int> res(findNums.size());
+        vector<int> res;
+        stack<int> st;
         unordered_map<int, int> m;
         
-        for (int i = 0; i < nums.size(); ++i) {
-            m[nums[i]] = i;
+        for (int num : nums) {
+            while (!st.empty() && st.top() < num) {
+                m[st.top()] = num; st.pop();
+            }
+            st.push(num);
         }
         
-        for (int i = 0; i < findNums.size(); ++i) {
-            res[i] = -1;
-            int start = m[findNums[i]];
-            for (int j = start + 1; j < nums.size(); ++j) {
-                if (nums[j] > findNums[i]) {
-                    res[i] = nums[j];
-                    break;
-                }
-            }
-        }
+        for (int num : findNums) {
+            res.push_back(m.count(num) ? m[num] : -1);
+        }  
         
         return res;
     }
